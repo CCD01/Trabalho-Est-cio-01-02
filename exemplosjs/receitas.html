@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de Receitas</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../receitas.css" />
+  <style>
+    body {
+      background-color: #ffc107; /* bg-warning */
+    }
+  </style>
+</head>
+<body onload="preencheCatalogo()">
+  <nav>
+    <ul>
+      <li id="menu" class="li-menu">menu</li>
+      <li id="ordenando" class="li-menu">ordenando</li>
+      <li id="receitas" class="li-menu">receitas</li>
+      <li id="usuarios-menu" class="li-menu">usuarios</li>
+    </ul>
+  </nav>
+  <div class="container-fluid bg-warning">
+    <div class="d-flex flex-wrap" id="pnlCatalogo">
+      <!-- Os painéis de receita serão adicionados aqui dinamicamente -->
+    </div>
+  </div>
+
+  <script>
+    // Dados de exemplo para as receitas
+    const receitas = [
+      {
+        titulo: "Doce de Abóbora",
+        imagem: "public/doce de abobora.jpeg",
+        preparo: "Preparar o doce de abóbora é simples e delicioso. Descasque e corte a abóbora antes de cozinhá-la até ficar macia. Em outra panela, crie uma calda com açúcar, canela e cravo. Misture a abóbora cozida à calda, mexendo bem. Cozinhe até obter uma consistência espessa. Deixe esfriar e aproveite esse doce irresistível!",
+        ingredientes: ["Abóbora", "Açúcar", "Canela em pau", "Cravo da Índia", "Água"]
+      },
+      {
+        titulo: "Bolo de Cenoura",
+        imagem: "public/bolo de cenoura.jpg",
+        preparo: "No liquidificador, misture cenoura, ovos e óleo.Adicione açúcar e bata por 5 minutos.Em outra tigela, misture farinha de trigo. Adicione fermento e misture lentamente. Asse a 180°C por cerca de 40 minutos. Para a cobertura, derreta manteiga, chocolate em pó, açúcar e leite Despeje a calda cremosa sobre o bolo",
+        ingredientes: ["1/2 xícara (chá) de óleo", "3 cenouras médias raladas", "4 ovos", "2 xícaras (chá) de açúcar", "2 e 1/2 xícaras (chá) de farinha de trigo", "1 colher (sopa) de fermento em pó químico", "1 colher (sopa) de manteiga", "3 colheres (sopa) de chocolate em pó", "1 xícara (chá) de açúcar", "1 xícara (chá) de leite"]
+      },
+      // Adicione mais receitas conforme necessário
+    ];
+
+    function getListaIngredientes(ingredientes) {
+      const listaHTML = `<ul class= "ul-ingredientes">${ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).reduce((acc, item) => acc + item, '')}</ul>`;
+      return listaHTML;
+    }
+
+    function getCard(receita) {
+      return `
+        <div class="card">
+          <img src="${receita.imagem}" alt="${receita.titulo}">
+          <div class="card-body">
+            <h5 class="card-title">${receita.titulo}</h5>
+            <div class="card-text">
+              ${getListaIngredientes(receita.ingredientes)}
+              <hr>
+              ${receita.preparo}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function preencheCatalogo() {
+      const pnlCatalogo = document.getElementById('pnlCatalogo');
+      const catalogoHTML = receitas.map(receita => getCard(receita)).reduce((acc, item) => acc + item, '');
+      pnlCatalogo.innerHTML = catalogoHTML;
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+          document
+            .getElementById("menu")
+            .addEventListener("click", function () {
+              console.log("entrei")
+              window.location.href = "menu.html";
+            })
+
+          document
+            .getElementById("ordenando")
+            .addEventListener("click", function () {
+              console.log("entrei no ordenado")
+              window.location.href = "ordenando.html";
+            })
+
+          document
+            .getElementById("receitas")
+            .addEventListener("click", function () {
+              console.log("entrei no receitas")
+              window.location.href = "./receitas.html";
+            })
+
+          document
+          .getElementById("usuarios-menu")
+            .addEventListener("click", function () {
+              console.log("entrei no ultimo")
+              window.location.href = "./usuarios.html";
+            })
+
+          var currentPage = window.location.pathname;
+          var menuItems = document.querySelectorAll("nav ul li");
+
+          menuItems.forEach(function (item) {
+            var itemPath = item.id.toLowerCase();
+            if (currentPage.indexOf(itemPath) !== -1) {
+              console.log("item 03", item);
+              item.classList.add("active");
+            } else {
+              console.log("item 04", item);
+              item.classList.remove("active");
+            }
+          });
+        });
+  </script>
+</body>
+</html>
